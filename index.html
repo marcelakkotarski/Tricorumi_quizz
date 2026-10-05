@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XT7C1KR4VN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XT7C1KR4VN');
+  </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f6ede7">
@@ -350,6 +358,7 @@
       return priority.sort((a,b)=>scores[b]-scores[a])[0];
     }
     function showResult(){
+      gtag('event', 'quiz_complete');
       progress.style.display="block";fill.style.width="100%";progressText.textContent="Resultado pronto ✨";
       const key=winner(),p=products[key];
       const alternatives=Object.entries(products).filter(([k])=>k!==key)
@@ -382,6 +391,7 @@
       document.getElementById("restart").onclick=restart;
     }
     function restart(){
+      gtag('event', 'quiz_start');
       index=0;scores={completo:0,mini:0,clube:0,pdf:0};answers=[];techniqueAnswer="no";
       render();
     }
@@ -397,8 +407,13 @@
       </section>`;
       document.getElementById("start").onclick=start;
     }
+    gtag('event', 'quiz_start');
     index=0;
     render();
+    app.addEventListener('click', function(event){
+      const link=event.target.closest('.result-card a[href]');
+      if(link) gtag('event', 'checkout_click', {transport_type: 'beacon'});
+    });
   </script>
 </body>
 </html>
