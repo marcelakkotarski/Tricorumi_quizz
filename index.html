@@ -176,6 +176,27 @@
     .scene-note{font-size:.68rem;color:#907c83}
     .skip-link{display:block;background:transparent;border:0;color:#8c6f7c;text-decoration:underline;font-size:.71rem;margin:12px auto 0;cursor:pointer}
     @media(max-width:640px){h1{font-size:clamp(2.8rem,12vw,4rem)}.emotion-media{height:min(30vh,220px)}.answer{font-size:.79rem;min-height:54px}}
+
+    /* Vídeos reais hospedados na pasta principal do GitHub Pages. */
+    .intro-layout{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:clamp(18px,4vw,42px);align-items:center;text-align:left}
+    .intro-film{width:100%;max-width:245px;aspect-ratio:2/3;overflow:hidden;border-radius:22px;background:#f8ecee;margin:auto}
+    .intro-video{display:block;width:100%;height:100%;object-fit:contain}
+    .intro-copy h1{font-size:clamp(2.7rem,5vw,4.6rem)}
+    .intro-copy .lead{margin-left:0;margin-right:0}
+    .emotion-media{width:min(100%,300px)!important;height:auto!important;aspect-ratio:2/3!important;overflow:hidden}
+    .emotion-media video,.emotion-media img{width:100%;height:100%;object-fit:contain}
+    .result-clip{width:120px;height:165px;overflow:hidden;border-radius:16px;margin:0 auto 10px;background:#f9e8ea}
+    .result-clip video{display:block;width:100%;height:100%;object-fit:contain}
+    .music-toggle{position:fixed;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;padding:10px 14px;border:1px solid #dfb7c4;background:rgba(255,251,250,.96);color:#782e4b;border-radius:999px;font:700 .73rem "Open Sans",sans-serif;box-shadow:0 5px 18px #6531421e;cursor:pointer}
+    .music-toggle:disabled{cursor:not-allowed;opacity:.7}
+    @media(max-width:640px){
+      .intro-layout{grid-template-columns:1fr;text-align:center;gap:12px}
+      .intro-film{width:min(100%,180px);aspect-ratio:2/3}
+      .intro-copy h1{font-size:clamp(2.6rem,11vw,3.8rem)}
+      .intro-copy .lead{margin-left:auto;margin-right:auto}
+      .music-toggle{right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:8px 12px}
+      .emotion-media{width:min(100%,245px)!important}
+    }
   </style>
 </head>
 <body>
@@ -226,7 +247,7 @@
         ["Pensar na alegria de quem vai receber.",{mini:2,completo:2}],
         ["Perceber que posso receber encomendas.",{completo:4,clube:1}]
       ]},
-      {type:"emotion",title:"Olha o amor dessa criança pelo bichinho que recebeu...",text:"É disso que estou falando: ver os olhinhos brilharem com uma peça sua nas mãos. Imagine viver a alegria de criar algo que desperta tanto carinho! Um presente feito com as próprias mãos pode se transformar em uma lembrança preciosa.",button:"Quero continuar",poster:"patinha.png",video:"midia/carinho.mp4"},
+      {type:"emotion",title:"Olha o amor dessa criança pelo bichinho que recebeu...",text:"É disso que estou falando: ver os olhinhos brilharem com uma peça sua nas mãos. Imagine viver a alegria de criar algo que desperta tanto carinho! Um presente feito com as próprias mãos pode se transformar em uma lembrança preciosa.",button:"Quero continuar",poster:"patinha.png",video:"animate (7).mp4"},
       {type:"question",title:"Imagina, além da satisfação de dizer “fui eu que fiz!”, ainda ter uma renda extra com suas criações? O que isso representaria para você?",answers:[
         ["Ser reconhecida e bem remunerada pelo que faço.",{completo:5}],
         ["Ter uma renda extra fazendo algo que amo.",{completo:5,clube:1}],
@@ -239,7 +260,7 @@
         ["Sigo receitas por conta própria.",{pdf:5,clube:1}],
         ["Tenho experiência e adoro desafios novos.",{clube:5,completo:2}]
       ]},
-      {type:"emotion",title:"É um carinho que começa nas suas mãos.",text:"Olha como um bichinho pode virar companhia e afeto. E imagine olhar para uma criação assim e poder dizer, com aquele quentinho no coração: “Fui eu que fiz!”.",button:"Quero descobrir meu próximo passo",poster:"ratinha.png",video:"midia/abraco.mp4"},
+      {type:"emotion",title:"É um carinho que começa nas suas mãos.",text:"Olha como um bichinho pode virar companhia e afeto. E imagine olhar para uma criação assim e poder dizer, com aquele quentinho no coração: “Fui eu que fiz!”.",button:"Quero descobrir meu próximo passo",poster:"ratinha.png",video:"animate (5).mp4"},
       {type:"question",title:"O que tornaria seu próximo “fui eu que fiz!” mais possível?",answers:[
         ["Um começo leve, com aulas passo a passo.",{mini:6}],
         ["Aprender a técnica inteira e criar várias peças.",{completo:6}],
@@ -326,7 +347,12 @@
       fill.style.width=`${Math.max(0,answers.length/total*100)}%`;
       progressText.textContent=current?`Pergunta ${current} de ${total}`:"";
     }
-    function start(){index=0;gtag('event','quiz_start',{quiz_name:'tricorumi'});render()}
+    function start(){
+      startBackgroundMusic();
+      index=0;
+      gtag('event','quiz_start',{quiz_name:'tricorumi'});
+      render();
+    }
     function render(){
       updateProgress();
       const s=screens[index];
@@ -362,7 +388,7 @@
         <span class="eyebrow">O carinho mora nos detalhes</span>
         <div class="emotion-media">
           <img class="emotion-poster" src="${s.poster}" alt="Bichinho em tricô feito à mão">
-          <video autoplay playsinline muted loop preload="metadata" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${s.video}" type="video/mp4"></video>
+          <video autoplay playsinline muted loop preload="auto" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${encodeURI(s.video)}" type="video/mp4"></video>
           <button class="watch-video" type="button">▶ Ver o vídeo</button>
         </div>
         <h2>${s.title}</h2><p>${s.text}</p>
@@ -413,7 +439,11 @@
       app.innerHTML=`<section class="card result-card">
         <div class="result-layout">
           <div>
-            ${characterMarkup(productImages[key])}
+            <div class="result-clip">
+              <video autoplay muted loop playsinline preload="auto" poster="ratinha.png" aria-label="Vídeo ilustrativo de uma criança com bichinho em tricô">
+                <source src="animate%20(1).mp4" type="video/mp4">
+              </video>
+            </div>
             <span class="eyebrow">Seu próximo bichinho começa aqui</span>
             <h2>${p.title}</h2>
             <p>${p.intro}</p>
@@ -435,6 +465,8 @@
           </aside>
         </div>
       </section>`;
+      const resultClip=app.querySelector('.result-clip video');
+      if(resultClip){resultClip.muted=true;resultClip.play().catch(()=>{resultClip.controls=true;});}
       document.getElementById("restart").onclick=restart;
     }
     function restart(){
@@ -445,18 +477,80 @@
     function renderIntro(){
       progress.style.display="none";
       app.innerHTML=`<section class="card">
-        ${characterMarkup(characterImages[0])}
+        <div class="intro-layout">
+          <div class="intro-film">
+            <video class="intro-video" autoplay muted loop playsinline preload="auto" poster="patinha.png" aria-label="Vídeo de uma criança com um bichinho de tricô">
+              <source src="animate%20(8).mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="intro-copy">
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
         <h1>Sabe aquele quentinho no coração?</h1>
         <p class="lead">É essa alegria que você pode sentir ao terminar seu primeiro bichinho em tricô. Não tem nada mais gostoso do que olhar para uma criação e dizer: <strong>“Uau! Fui eu que fiz!”</strong></p>
         <button class="btn primary" type="button" id="start">Quero descobrir meu próximo passo</button>
         <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
         <a class="direct-buy" href="${links.completo}" target="_blank" rel="noopener">Já sei que quero aprender! Ir direto para o curso completo • 12x de R$ 20,46 →</a>
-      </section>`;
+          </div>
+        </div>
+      </section>`; 
+      const video=app.querySelector('.intro-video');
+      if(video){
+        video.muted=true;
+        video.play().catch(()=>{video.controls=true;});
+      }
       document.getElementById("start").onclick=start;
     }
     index=-1;
     renderIntro();
+
+    // Um MP4 adicional aparece no repositório fora da série 'animate'.
+    // Caso contenha áudio, funciona como trilha; caso não contenha, mostrar erro ao visitante.
+    const soundtrack=document.createElement('audio');
+    soundtrack.src='video-975831472284022.mp4';
+    soundtrack.preload='auto';
+    soundtrack.loop=true;
+    soundtrack.volume=0.18;
+    document.body.appendChild(soundtrack);
+    let musicOptedOut=false;
+    const musicButton=document.createElement('button');
+    musicButton.type='button';
+    musicButton.className='music-toggle';
+    musicButton.setAttribute('aria-label','Ativar música ambiente');
+    musicButton.textContent='♫ Música';
+    document.body.appendChild(musicButton);
+    function syncMusicButton(){
+      const isPlaying=!soundtrack.paused && !soundtrack.ended;
+      musicButton.textContent=isPlaying?'♫ Pausar música':'♫ Ativar música';
+      musicButton.setAttribute('aria-pressed',String(isPlaying));
+      musicButton.setAttribute('aria-label',isPlaying?'Pausar música ambiente':'Ativar música ambiente');
+    }
+    function startBackgroundMusic(){
+      if(musicOptedOut || !soundtrack.paused)return;
+      soundtrack.volume=0.18;
+      const playPromise=soundtrack.play();
+      if(playPromise && playPromise.then)playPromise.then(syncMusicButton).catch(syncMusicButton);
+    }
+    musicButton.onclick=()=>{
+      if(!soundtrack.paused){musicOptedOut=true;soundtrack.pause();}
+      else{musicOptedOut=false;startBackgroundMusic();}
+      syncMusicButton();
+    };
+    soundtrack.addEventListener('play',syncMusicButton);
+    soundtrack.addEventListener('pause',syncMusicButton);
+    soundtrack.addEventListener('error',()=>{
+      musicButton.textContent='♫ Música indisponível';
+      musicButton.setAttribute('aria-label','Trilha não encontrada');
+      musicButton.disabled=true;
+    });
+    document.addEventListener('pointerdown',event=>{
+      if(!event.target.closest('.music-toggle'))startBackgroundMusic();
+    },{capture:true});
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' ')startBackgroundMusic();
+    },{capture:true});
+    // Navegadores bloqueiam áudio audível em autoplay antes da interação.
+    startBackgroundMusic();
+
     app.addEventListener('click', function(event){
       const direct=event.target.closest('a.direct-buy');
       if(direct) gtag('event','checkout_click',{transport_type:'beacon',recommended_product:'completo',source:'direct_buy'});
