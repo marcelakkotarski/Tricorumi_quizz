@@ -246,7 +246,7 @@
         ["Ter novas receitas sempre ao meu alcance.",{clube:6}]
       ]},
       {type:"question",price:true,title:"Qual formato combina mais com seu momento?",answers:[
-        ["Curso completo","Em até 10x no cartão • valor exato no checkout • 15 bichinhos",{completo:4}],
+        ["Curso completo","12x de R$ 20,46 • módulo básico + 15 bichinhos • acesso por 1 ano",{completo:4}],
         ["Mini curso","R$ 127 • módulo básico + 5 bichinhos",{mini:4}],
         ["Clube de assinaturas","R$ 19,90 no 1º mês; depois R$ 47,90/mês",{clube:4}],
         ["PDF avulso","R$ 47,90 por receita",{pdf:4}]
@@ -255,7 +255,7 @@
 
     const products={
       completo:{
-        title:"Curso Completo de Tricorumi",price:"Em até 10x no cartão",suffix:"Confira o valor exato das parcelas e o total no checkout",shortPay:"(até 10x no cartão)",
+        title:"Curso Completo de Tricorumi",price:"12x de R$ 20,46",suffix:"no cartão",shortPay:"(12x de R$ 20,46)",
         intro:"Suas respostas mostram vontade de transformar suas habilidades em peças afetivas. Imagine criar uma coleção de personagens e olhar para cada um com orgulho: fui eu que fiz.",
         items:["Módulo básico de tricô","15 bichinhos passo a passo","Acesso por 1 ano","Ideal para aprender, criar e vender"],
         cta:"Quero o curso completo",url:links.completo
@@ -445,9 +445,9 @@
       app.innerHTML=`<section class="card">
         ${characterMarkup(characterImages[0])}
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
-        <h1>Não existe satisfação maior que ver o resultado do trabalho das suas mãos.</h1>
-        <p class="lead">Olhar para uma peça e pensar: <strong>“Fui eu que fiz!”</strong> Você já sentiu isso? Descubra um novo jeito de criar bichinhos cheios de afeto com o tricô.</p>
-        <button class="btn primary" type="button" id="start">Quero descobrir essa sensação</button>
+        <h1>Já sentiu aquele quentinho no coração?</h1>
+        <p class="lead">É essa alegria que você pode sentir ao terminar seu primeiro bichinho em tricô. Não tem nada mais gostoso do que olhar para uma criação e dizer: <strong>“Uau! Fui eu que fiz!”</strong></p>
+        <button class="btn primary" type="button" id="start">Quero descobrir meu próximo passo</button>
         <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
       </section>`;
       document.getElementById("start").onclick=start;
