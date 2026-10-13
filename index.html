@@ -166,6 +166,7 @@
     .answer{font-family:'Open Sans',sans-serif;line-height:1.48;font-weight:600}
     .answer:hover{background:#fff0f4;border-color:#bb6e89}
     .emotion-card{max-width:650px;margin-inline:auto}
+    .direct-buy{display:block;margin:14px auto 0;max-width:440px;font-size:.78rem;font-weight:700;color:#7c3050;text-decoration:underline;text-underline-offset:3px;line-height:1.45}
     .emotion-media{position:relative;width:min(100%,340px);height:clamp(175px,32vh,240px);margin:3px auto 16px;background:#f2e3e5;overflow:hidden;border-radius:19px}
     .emotion-media video,.emotion-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .emotion-poster{display:block}
@@ -366,8 +367,9 @@
         </div>
         <h2>${s.title}</h2><p>${s.text}</p>
         <p class="scene-note">Cena ilustrativa • cada criação é única</p>
-        <button class="btn primary" id="continue" type="button">${s.button}</button>
+        <button class="btn primary" id="continue" type="button">Próxima pergunta</button>
         <button class="skip-link" id="skip" type="button">Pular esta pausa</button>
+        <a class="direct-buy" href="${links.completo}" target="_blank" rel="noopener">Quero ir direto para o curso completo • 12x de R$ 20,46 →</a>
       </section>`;
       const video=app.querySelector('video'),play=app.querySelector('.watch-video'),poster=app.querySelector('.emotion-poster');
       function fallback(){video.hidden=true;poster.hidden=false;play.hidden=true;}
@@ -445,16 +447,19 @@
       app.innerHTML=`<section class="card">
         ${characterMarkup(characterImages[0])}
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
-        <h1>Já sentiu aquele quentinho no coração?</h1>
+        <h1>Sabe aquele quentinho no coração?</h1>
         <p class="lead">É essa alegria que você pode sentir ao terminar seu primeiro bichinho em tricô. Não tem nada mais gostoso do que olhar para uma criação e dizer: <strong>“Uau! Fui eu que fiz!”</strong></p>
         <button class="btn primary" type="button" id="start">Quero descobrir meu próximo passo</button>
         <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
+        <a class="direct-buy" href="${links.completo}" target="_blank" rel="noopener">Já sei que quero aprender! Ir direto para o curso completo • 12x de R$ 20,46 →</a>
       </section>`;
       document.getElementById("start").onclick=start;
     }
     index=-1;
     renderIntro();
     app.addEventListener('click', function(event){
+      const direct=event.target.closest('a.direct-buy');
+      if(direct) gtag('event','checkout_click',{transport_type:'beacon',recommended_product:'completo',source:'direct_buy'});
       const link=event.target.closest('.result-card a[href]');
       if(link) gtag('event','checkout_click',{transport_type:'beacon',recommended_product:winner(),destination:link.href});
     });
