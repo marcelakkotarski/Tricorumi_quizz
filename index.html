@@ -514,6 +514,7 @@
     soundtrack.id='tricorumi-soundtrack';
     soundtrack.src='sonican-acoustic-guitar-amp-piano-peaceful-land-321481.mp3';
     soundtrack.preload='auto';
+    soundtrack.autoplay=true;
     soundtrack.loop=true;
     soundtrack.muted=false;
     soundtrack.volume=0.4;
@@ -572,7 +573,9 @@
     document.addEventListener('keydown',event=>{
       if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.music-box'))startBackgroundMusic();
     },{capture:true});
-    // Tentativa inicial; se o navegador bloquear o som, o clique no quiz ativará.
+    // Tenta reproduzir no carregamento e ao concluir o carregamento da mídia.
+    // Se a política do navegador bloquear áudio com som, o primeiro clique libera o play.
+    soundtrack.addEventListener('canplay',startBackgroundMusic,{once:true});
     startBackgroundMusic();
 
     app.addEventListener('click', function(event){
