@@ -197,6 +197,16 @@
       .music-toggle{right:10px;bottom:max(8px,env(safe-area-inset-bottom));padding:8px 12px}
       .emotion-media{width:min(100%,245px)!important}
     }
+    .music-box{position:fixed;right:12px;bottom:max(14px,env(safe-area-inset-bottom));z-index:50;display:flex;align-items:center;gap:9px;background:rgba(255,251,250,.98);border:1px solid #dfb7c4;box-shadow:0 5px 18px #6531421e;border-radius:18px;padding:7px 9px}
+    .music-box .music-toggle{position:static;font-size:.74rem;box-shadow:none;border:0;background:transparent;color:#782e4b;cursor:pointer;white-space:nowrap;padding:6px}
+    .music-volume{display:flex;align-items:center;gap:5px;font-size:.65rem;color:#782e4b;white-space:nowrap}
+    .music-volume input{width:70px;accent-color:#9b3558}
+    .result-videos{margin-top:22px;padding-top:16px;border-top:1px solid #f1dce2;text-align:center}
+    .result-videos h3{margin-bottom:6px;font-family:'Yanone Kaffeesatz',sans-serif;font-size:1.7rem;color:#78344e}
+    .result-videos p{font-size:.78rem;margin:0 auto 12px}
+    .result-videos-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+    .result-videos-grid video{display:block;width:min(44%,210px);height:230px;object-fit:contain;background:#f8edef;border-radius:16px}
+    @media(max-width:640px){.music-box{right:6px;bottom:6px;gap:4px;padding:4px}.music-volume span{display:none}.music-volume input{width:48px}.result-videos-grid video{width:min(46%,170px);height:190px}}
   </style>
 </head>
 <body>
@@ -439,11 +449,6 @@
       app.innerHTML=`<section class="card result-card">
         <div class="result-layout">
           <div>
-            <div class="result-clip">
-              <video autoplay muted loop playsinline preload="auto" poster="ratinha.png" aria-label="Vídeo ilustrativo de uma criança com bichinho em tricô">
-                <source src="midia/resultado.mp4" type="video/mp4">
-              </video>
-            </div>
             <span class="eyebrow">Seu próximo bichinho começa aqui</span>
             <h2>${p.title}</h2>
             <p>${p.intro}</p>
@@ -464,9 +469,23 @@
             <p class="guarantee">A técnica ainda é pouco conhecida por muitas artesãs e está ganhando mercado pelo apelo afetivo e visual.</p>
           </aside>
         </div>
+        <div class="result-videos">
+          <h3>O carinho que inspira cada ponto</h3>
+          <p>Imagine entregar um bichinho feito pelas suas mãos.</p>
+          <div class="result-videos-grid">
+            <video autoplay muted loop playsinline preload="metadata" poster="ratinha.png" aria-label="Vídeo de criança abraçando bichinho de tricô">
+              <source src="midia/resultado.mp4" type="video/mp4">
+            </video>
+            <video autoplay muted loop playsinline preload="metadata" poster="patinha.png" aria-label="Outro vídeo de criança com bichinho de tricô">
+              <source src="animate%20(1).mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </section>`;
-      const resultClip=app.querySelector('.result-clip video');
-      if(resultClip){resultClip.muted=true;resultClip.play().catch(()=>{resultClip.controls=true;});}
+      app.querySelectorAll('.result-videos video').forEach(clip=>{
+        clip.muted=true;
+        clip.play().catch(()=>{clip.controls=true;});
+      });
       document.getElementById("restart").onclick=restart;
     }
     function restart(){
@@ -477,78 +496,83 @@
     function renderIntro(){
       progress.style.display="none";
       app.innerHTML=`<section class="card">
-        <div class="intro-layout">
-          <div class="intro-film">
-            <video class="intro-video" autoplay muted loop playsinline preload="auto" poster="patinha.png" aria-label="Vídeo de uma criança com um bichinho de tricô">
-              <source src="midia/abertura.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="intro-copy">
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
         <h1>Sabe aquele quentinho no coração?</h1>
         <p class="lead">É essa alegria que você pode sentir ao terminar seu primeiro bichinho em tricô. Não tem nada mais gostoso do que olhar para uma criação e dizer: <strong>“Uau! Fui eu que fiz!”</strong></p>
         <button class="btn primary" type="button" id="start">Quero descobrir meu próximo passo</button>
         <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
         <a class="direct-buy" href="${links.completo}" target="_blank" rel="noopener">Já sei que quero aprender! Ir direto para o curso completo • 12x de R$ 20,46 →</a>
-          </div>
-        </div>
-      </section>`; 
-      const video=app.querySelector('.intro-video');
-      if(video){
-        video.muted=true;
-        video.play().catch(()=>{video.controls=true;});
-      }
+      </section>`;
       document.getElementById("start").onclick=start;
     }
     index=-1;
     renderIntro();
 
-    // Um MP4 adicional aparece no repositório fora da série 'animate'.
-    // Caso contenha áudio, funciona como trilha; caso não contenha, mostrar erro ao visitante.
+    // Trilha ambiente vinculada ao arquivo enviado ao repositório.
+    // Autoplay audível pode ser bloqueado pelo navegador até o primeiro clique.
     const soundtrack=document.createElement('audio');
+    soundtrack.id='tricorumi-soundtrack';
     soundtrack.src='video-975831472284022.mp4';
     soundtrack.preload='auto';
     soundtrack.loop=true;
-    soundtrack.volume=0.18;
+    soundtrack.muted=false;
+    soundtrack.volume=0.4;
     document.body.appendChild(soundtrack);
+
+    const musicBox=document.createElement('div');
+    musicBox.className='music-box';
+    musicBox.innerHTML=`<button type="button" class="music-toggle" aria-pressed="false">♫ Ativar música</button>
+      <label class="music-volume"><span>Volume</span><input type="range" min="0" max="100" value="40" step="5" aria-label="Volume da trilha em porcentagem"></label>`;
+    document.body.appendChild(musicBox);
+    const musicButton=musicBox.querySelector('.music-toggle');
+    const musicVolume=musicBox.querySelector('input');
     let musicOptedOut=false;
-    const musicButton=document.createElement('button');
-    musicButton.type='button';
-    musicButton.className='music-toggle';
-    musicButton.setAttribute('aria-label','Ativar música ambiente');
-    musicButton.textContent='♫ Música';
-    document.body.appendChild(musicButton);
+    let musicUnavailable=false;
+
     function syncMusicButton(){
-      const isPlaying=!soundtrack.paused && !soundtrack.ended;
-      musicButton.textContent=isPlaying?'♫ Pausar música':'♫ Ativar música';
-      musicButton.setAttribute('aria-pressed',String(isPlaying));
-      musicButton.setAttribute('aria-label',isPlaying?'Pausar música ambiente':'Ativar música ambiente');
+      const playing=!soundtrack.paused && !soundtrack.ended;
+      musicButton.textContent=musicUnavailable?'♫ Áudio indisponível':playing?'♫ Pausar música':'♫ Ativar música';
+      musicButton.setAttribute('aria-pressed',String(playing));
+      musicButton.setAttribute('aria-label',playing?'Pausar música ambiente':'Ativar música ambiente');
     }
     function startBackgroundMusic(){
-      if(musicOptedOut || !soundtrack.paused)return;
-      soundtrack.volume=0.18;
-      const playPromise=soundtrack.play();
-      if(playPromise && playPromise.then)playPromise.then(syncMusicButton).catch(syncMusicButton);
+      if(musicOptedOut||musicUnavailable||!soundtrack.paused)return;
+      soundtrack.muted=false;
+      soundtrack.volume=Number(musicVolume.value)/100;
+      const playback=soundtrack.play();
+      if(playback && typeof playback.catch==='function'){
+        playback.then(syncMusicButton).catch(()=>{syncMusicButton();});
+      }
     }
     musicButton.onclick=()=>{
-      if(!soundtrack.paused){musicOptedOut=true;soundtrack.pause();}
-      else{musicOptedOut=false;startBackgroundMusic();}
+      if(!soundtrack.paused){
+        musicOptedOut=true;
+        soundtrack.pause();
+      }else{
+        musicOptedOut=false;
+        startBackgroundMusic();
+      }
       syncMusicButton();
+    };
+    musicVolume.oninput=()=>{
+      soundtrack.volume=Number(musicVolume.value)/100;
+      if(soundtrack.volume===0){soundtrack.muted=true;}else{soundtrack.muted=false;}
     };
     soundtrack.addEventListener('play',syncMusicButton);
     soundtrack.addEventListener('pause',syncMusicButton);
+    soundtrack.addEventListener('ended',syncMusicButton);
     soundtrack.addEventListener('error',()=>{
-      musicButton.textContent='♫ Música indisponível';
-      musicButton.setAttribute('aria-label','Trilha não encontrada');
-      musicButton.disabled=true;
+      musicUnavailable=true;
+      syncMusicButton();
+      musicButton.title='Não foi possível carregar o arquivo de áudio. Confira a trilha no repositório.';
     });
     document.addEventListener('pointerdown',event=>{
-      if(!event.target.closest('.music-toggle'))startBackgroundMusic();
+      if(!event.target.closest('.music-box'))startBackgroundMusic();
     },{capture:true});
     document.addEventListener('keydown',event=>{
-      if(event.key==='Enter'||event.key===' ')startBackgroundMusic();
+      if((event.key==='Enter'||event.key===' ')&&!event.target.closest('.music-box'))startBackgroundMusic();
     },{capture:true});
-    // Navegadores bloqueiam áudio audível em autoplay antes da interação.
+    // Tentativa inicial; se o navegador bloquear o som, o clique no quiz ativará.
     startBackgroundMusic();
 
     app.addEventListener('click', function(event){
