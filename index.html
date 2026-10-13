@@ -167,7 +167,7 @@
     .answer:hover{background:#fff0f4;border-color:#bb6e89}
     .emotion-card{max-width:650px;margin-inline:auto}
     .emotion-media{position:relative;width:min(100%,340px);height:clamp(175px,32vh,240px);margin:3px auto 16px;background:#f2e3e5;overflow:hidden;border-radius:19px}
-    .emotion-media video,.emotion-poster{width:100%;height:100%;object-fit:cover}
+    .emotion-media video,.emotion-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
     .emotion-poster{display:block}
     .watch-video{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#fff9fa;border:0;padding:12px 20px;border-radius:999px;white-space:nowrap;color:#75304e;font-weight:700;cursor:pointer}
     .emotion-card h2{font-size:clamp(2.3rem,5vw,3.3rem);margin:10px auto}
@@ -211,41 +211,42 @@
     };
 
     // Seis perguntas em uma jornada emocional com duas pausas visuais opcionais.
+    // Identificação, reconhecimento, afeto, aprendizado e recomendação.
     const screens=[
-      {type:"question",title:"O que você gostaria de sentir ao terminar um bichinho em tricô?",answers:[
-        ["A alegria de presentear alguém especial.",{completo:3,mini:2}],
-        ["O orgulho de mostrar uma peça feita por mim.",{completo:4}],
-        ["A tranquilidade de criar algo só meu.",{pdf:2,mini:3}],
-        ["A vontade de fazer uma coleção inteira.",{clube:4,completo:2}]
+      {type:"question",title:"Você já terminou uma peça e pensou: “Fui eu que fiz!”?",answers:[
+        ["Sim! Dá um orgulho difícil de explicar.",{completo:2,mini:1}],
+        ["Sim, e já fico imaginando a próxima.",{clube:2,completo:1}],
+        ["Ainda não, mas quero muito sentir isso.",{mini:3}],
+        ["Faz tempo que não sinto essa alegria.",{mini:2,completo:1}]
       ]},
-      {type:"question",title:"Como você se sente com as agulhas hoje?",answers:[
-        ["Sei os pontos básicos, mas ainda preciso de orientação.",{mini:5,completo:1}],
-        ["Já tricoto e quero aprender a fazer bichinhos.",{completo:5}],
-        ["Consigo seguir receitas sozinha.",{pdf:4,clube:1}],
-        ["Tenho experiência e adoro projetos novos.",{clube:4,completo:2}]
+      {type:"question",title:"Quando alguém diz “Que lindo! Quem fez?” e você responde “Eu faço!”, qual é a melhor parte?",answers:[
+        ["O orgulho de saber que fui capaz.",{mini:2,completo:2}],
+        ["Sentir que meu trabalho é reconhecido.",{completo:3}],
+        ["Pensar na alegria de quem vai receber.",{mini:2,completo:2}],
+        ["Perceber que posso receber encomendas.",{completo:4,clube:1}]
       ]},
-      {type:"emotion",title:"Um abraço pode começar com um novelo.",text:"Imagine entregar um bichinho feito ponto por ponto. O sorriso de quem recebe pode tornar essa criação inesquecível.",button:"Quero continuar",poster:"patinha.png",video:"midia/carinho.mp4"},
-      {type:"question",title:"Para quem você imagina criar seu próximo bichinho?",answers:[
-        ["Para uma criança ou alguém que amo.",{mini:3,completo:2}],
-        ["Para encantar minhas clientes.",{completo:5}],
-        ["Para mim: amo criar minhas próprias peças.",{pdf:4,mini:1}],
-        ["Para montar uma coleção de personagens.",{clube:5,completo:1}]
+      {type:"emotion",title:"Olha o amor dessa criança pelo bichinho que recebeu...",text:"É disso que estou falando: ver os olhinhos brilharem com uma peça sua nas mãos. Imagine viver a alegria de criar algo que desperta tanto carinho! Um presente feito com as próprias mãos pode se transformar em uma lembrança preciosa.",button:"Quero continuar",poster:"patinha.png",video:"midia/carinho.mp4"},
+      {type:"question",title:"Imagine um bichinho de tricô feito por você. Quem gostaria de recebê-lo?",answers:[
+        ["Uma criança ou alguém muito especial.",{mini:3,completo:2}],
+        ["Uma cliente que valorize meu trabalho.",{completo:5}],
+        ["Eu mesma! Amo minhas criações.",{pdf:4,mini:1}],
+        ["Muitas pessoas: quero criar uma coleção.",{clube:4,completo:2}]
       ]},
-      {type:"question",title:"O que te ajudaria a transformar essa vontade em uma peça pronta?",answers:[
-        ["Aulas acolhedoras para começar com confiança.",{mini:5}],
-        ["Um método completo com várias peças guiadas.",{completo:5}],
-        ["Uma receita avulsa do personagem que escolhi.",{pdf:5}],
-        ["Uma biblioteca de receitas para criar sempre.",{clube:5}]
+      {type:"question",title:"Como você se sente com suas agulhas hoje?",answers:[
+        ["Sei o básico, mas preciso de apoio.",{mini:5,completo:1}],
+        ["Já tricoto e quero aprender a criar bichinhos.",{completo:5}],
+        ["Sigo receitas por conta própria.",{pdf:5,clube:1}],
+        ["Tenho experiência e adoro desafios novos.",{clube:5,completo:2}]
       ]},
-      {type:"emotion",title:"A magia está em poder dizer: fui eu que fiz.",text:"Cada ponto é uma pequena conquista. E ver o bichinho pronto pode ser aquele instante gostoso que faz você querer criar outro.",button:"Quero ver meu caminho",poster:"ratinha.png",video:"midia/abraco.mp4"},
-      {type:"question",title:"Qual sonho você quer tirar das agulhas primeiro?",answers:[
-        ["Terminar meu primeiro bichinho sem medo de errar.",{mini:6}],
-        ["Dominar a técnica para criar e até vender.",{completo:6}],
-        ["Fazer o personagem que roubou meu coração.",{pdf:6}],
-        ["Ter muitas ideias e peças novas para fazer.",{clube:6}]
+      {type:"emotion",title:"É um carinho que começa nas suas mãos.",text:"Olha como um bichinho pode virar companhia e afeto. E imagine olhar para uma criação assim e poder dizer, com aquele quentinho no coração: “Fui eu que fiz!”.",button:"Quero descobrir meu próximo passo",poster:"ratinha.png",video:"midia/abraco.mp4"},
+      {type:"question",title:"O que tornaria seu próximo “fui eu que fiz!” mais possível?",answers:[
+        ["Um começo leve, com aulas passo a passo.",{mini:6}],
+        ["Aprender a técnica inteira e criar várias peças.",{completo:6}],
+        ["Escolher um bichinho e seguir a receita.",{pdf:6}],
+        ["Ter novas receitas sempre ao meu alcance.",{clube:6}]
       ]},
-      {type:"question",price:true,title:"Qual formato faz sentido para você agora?",answers:[
-        ["Curso completo","R$ 297 • módulo básico + 15 bichinhos • acesso por 1 ano",{completo:4}],
+      {type:"question",price:true,title:"Qual formato combina mais com seu momento?",answers:[
+        ["Curso completo","Em até 10x no cartão • valor exato no checkout • 15 bichinhos",{completo:4}],
         ["Mini curso","R$ 127 • módulo básico + 5 bichinhos",{mini:4}],
         ["Clube de assinaturas","R$ 19,90 no 1º mês; depois R$ 47,90/mês",{clube:4}],
         ["PDF avulso","R$ 47,90 por receita",{pdf:4}]
@@ -254,7 +255,7 @@
 
     const products={
       completo:{
-        title:"Curso Completo de Tricorumi",price:"R$ 297,00",suffix:"parcelado em 10x",shortPay:"(em 10x)",
+        title:"Curso Completo de Tricorumi",price:"Em até 10x no cartão",suffix:"Confira o valor exato das parcelas e o total no checkout",shortPay:"(até 10x no cartão)",
         intro:"Suas respostas mostram vontade de transformar suas habilidades em peças afetivas. Imagine criar uma coleção de personagens e olhar para cada um com orgulho: fui eu que fiz.",
         items:["Módulo básico de tricô","15 bichinhos passo a passo","Acesso por 1 ano","Ideal para aprender, criar e vender"],
         cta:"Quero o curso completo",url:links.completo
@@ -360,7 +361,7 @@
         <span class="eyebrow">O carinho mora nos detalhes</span>
         <div class="emotion-media">
           <img class="emotion-poster" src="${s.poster}" alt="Bichinho em tricô feito à mão">
-          <video hidden playsinline muted loop preload="none" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${s.video}" type="video/mp4"></video>
+          <video autoplay playsinline muted loop preload="metadata" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${s.video}" type="video/mp4"></video>
           <button class="watch-video" type="button">▶ Ver o vídeo</button>
         </div>
         <h2>${s.title}</h2><p>${s.text}</p>
@@ -372,7 +373,14 @@
       function fallback(){video.hidden=true;poster.hidden=false;play.hidden=true;}
       video.addEventListener('error',fallback,{once:true});
       video.querySelector('source').addEventListener('error',fallback,{once:true});
-      play.onclick=()=>video.play().then(()=>{video.hidden=false;poster.hidden=true;play.hidden=true;gtag('event','quiz_video_play',{scene_number:scene})}).catch(fallback);
+      let trackedPlay=false;
+      video.addEventListener('playing',()=>{
+        video.hidden=false;poster.hidden=true;play.hidden=true;
+        if(!trackedPlay){trackedPlay=true;gtag('event','quiz_video_play',{scene_number:scene});}
+      });
+      video.muted=true;
+      play.onclick=()=>video.play().catch(()=>{play.textContent='▶ Tentar reproduzir';});
+      video.play().catch(()=>{play.hidden=false;});
       document.getElementById('continue').onclick=()=>{video.pause();next()};
       document.getElementById('skip').onclick=()=>{video.pause();next()};
     }
@@ -437,9 +445,9 @@
       app.innerHTML=`<section class="card">
         ${characterMarkup(characterImages[0])}
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
-        <h1>Um abraço pode começar nas suas agulhas.</h1>
-        <p class="lead">Imagine a alegria de entregar um bichinho criado por você. Descubra, em seis perguntas, o caminho para transformar seus pontos em personagens cheios de afeto.</p>
-        <button class="btn primary" type="button" id="start">Quero descobrir meu próximo bichinho</button>
+        <h1>Não existe satisfação maior que ver o resultado do trabalho das suas mãos.</h1>
+        <p class="lead">Olhar para uma peça e pensar: <strong>“Fui eu que fiz!”</strong> Você já sentiu isso? Descubra um novo jeito de criar bichinhos cheios de afeto com o tricô.</p>
+        <button class="btn primary" type="button" id="start">Quero descobrir essa sensação</button>
         <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
       </section>`;
       document.getElementById("start").onclick=start;
