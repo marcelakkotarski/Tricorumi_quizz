@@ -184,7 +184,7 @@
     .intro-copy h1{font-size:clamp(2.7rem,5vw,4.6rem)}
     .intro-copy .lead{margin-left:0;margin-right:0}
     .emotion-media{width:min(100%,300px)!important;height:auto!important;aspect-ratio:2/3!important;overflow:hidden}
-    .emotion-media video,.emotion-media img{width:100%;height:100%;object-fit:contain}
+    .emotion-media video,.emotion-media img{width:100%;height:100%;object-fit:contain}.emotion-media .scene-video{display:block!important;position:absolute;inset:0;z-index:1;visibility:visible;opacity:1}.emotion-media .watch-video{z-index:2;display:none}.emotion-media .watch-video:not([hidden]){display:block}
     .result-clip{width:120px;height:165px;overflow:hidden;border-radius:16px;margin:0 auto 10px;background:#f9e8ea}
     .result-clip video{display:block;width:100%;height:100%;object-fit:contain}
     .music-toggle{position:fixed;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:20;padding:10px 14px;border:1px solid #dfb7c4;background:rgba(255,251,250,.96);color:#782e4b;border-radius:999px;font:700 .73rem "Open Sans",sans-serif;box-shadow:0 5px 18px #6531421e;cursor:pointer}
@@ -247,7 +247,7 @@
         ["Pensar na alegria de quem vai receber.",{mini:2,completo:2}],
         ["Perceber que posso receber encomendas.",{completo:4,clube:1}]
       ]},
-      {type:"emotion",title:"Olha o amor dessa criança pelo bichinho que recebeu...",text:"É disso que estou falando: ver os olhinhos brilharem com uma peça sua nas mãos. Imagine viver a alegria de criar algo que desperta tanto carinho! Um presente feito com as próprias mãos pode se transformar em uma lembrança preciosa.",button:"Quero continuar",poster:"patinha.png",video:"animate (7).mp4"},
+      {type:"emotion",title:"Olha o amor dessa criança pelo bichinho que recebeu...",text:"É disso que estou falando: ver os olhinhos brilharem com uma peça sua nas mãos. Imagine viver a alegria de criar algo que desperta tanto carinho! Um presente feito com as próprias mãos pode se transformar em uma lembrança preciosa.",button:"Quero continuar",poster:"patinha.png",video:"midia/carinho.mp4"},
       {type:"question",title:"Imagina, além da satisfação de dizer “fui eu que fiz!”, ainda ter uma renda extra com suas criações? O que isso representaria para você?",answers:[
         ["Ser reconhecida e bem remunerada pelo que faço.",{completo:5}],
         ["Ter uma renda extra fazendo algo que amo.",{completo:5,clube:1}],
@@ -260,7 +260,7 @@
         ["Sigo receitas por conta própria.",{pdf:5,clube:1}],
         ["Tenho experiência e adoro desafios novos.",{clube:5,completo:2}]
       ]},
-      {type:"emotion",title:"É um carinho que começa nas suas mãos.",text:"Olha como um bichinho pode virar companhia e afeto. E imagine olhar para uma criação assim e poder dizer, com aquele quentinho no coração: “Fui eu que fiz!”.",button:"Quero descobrir meu próximo passo",poster:"ratinha.png",video:"animate (5).mp4"},
+      {type:"emotion",title:"É um carinho que começa nas suas mãos.",text:"Olha como um bichinho pode virar companhia e afeto. E imagine olhar para uma criação assim e poder dizer, com aquele quentinho no coração: “Fui eu que fiz!”.",button:"Quero descobrir meu próximo passo",poster:"ratinha.png",video:"midia/abraco.mp4"},
       {type:"question",title:"O que tornaria seu próximo “fui eu que fiz!” mais possível?",answers:[
         ["Um começo leve, com aulas passo a passo.",{mini:6}],
         ["Aprender a técnica inteira e criar várias peças.",{completo:6}],
@@ -387,9 +387,9 @@
       app.innerHTML=`<section class="card emotion-card">
         <span class="eyebrow">O carinho mora nos detalhes</span>
         <div class="emotion-media">
-          <img class="emotion-poster" src="${s.poster}" alt="Bichinho em tricô feito à mão">
-          <video autoplay playsinline muted loop preload="auto" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${encodeURI(s.video)}" type="video/mp4"></video>
-          <button class="watch-video" type="button">▶ Ver o vídeo</button>
+          
+          <video class="scene-video" autoplay playsinline muted loop preload="auto" poster="${s.poster}" aria-label="Vídeo com bichinho feito à mão"><source src="${s.video}" type="video/mp4"></video>
+          <button class="watch-video" type="button" hidden>▶ Ver o vídeo</button>
         </div>
         <h2>${s.title}</h2><p>${s.text}</p>
         <p class="scene-note">Cena ilustrativa • cada criação é única</p>
@@ -397,13 +397,13 @@
         <button class="skip-link" id="skip" type="button">Pular esta pausa</button>
         <a class="direct-buy" href="${links.completo}" target="_blank" rel="noopener">Quero ir direto para o curso completo • 12x de R$ 20,46 →</a>
       </section>`;
-      const video=app.querySelector('video'),play=app.querySelector('.watch-video'),poster=app.querySelector('.emotion-poster');
-      function fallback(){video.hidden=true;poster.hidden=false;play.hidden=true;}
+      const video=app.querySelector('video'),play=app.querySelector('.watch-video');
+      function fallback(){video.controls=true;play.hidden=false;play.textContent='▶ Reproduzir vídeo';}
       video.addEventListener('error',fallback,{once:true});
       video.querySelector('source').addEventListener('error',fallback,{once:true});
       let trackedPlay=false;
       video.addEventListener('playing',()=>{
-        video.hidden=false;poster.hidden=true;play.hidden=true;
+        play.hidden=true;
         if(!trackedPlay){trackedPlay=true;gtag('event','quiz_video_play',{scene_number:scene});}
       });
       video.muted=true;
@@ -441,7 +441,7 @@
           <div>
             <div class="result-clip">
               <video autoplay muted loop playsinline preload="auto" poster="ratinha.png" aria-label="Vídeo ilustrativo de uma criança com bichinho em tricô">
-                <source src="animate%20(1).mp4" type="video/mp4">
+                <source src="midia/resultado.mp4" type="video/mp4">
               </video>
             </div>
             <span class="eyebrow">Seu próximo bichinho começa aqui</span>
@@ -480,7 +480,7 @@
         <div class="intro-layout">
           <div class="intro-film">
             <video class="intro-video" autoplay muted loop playsinline preload="auto" poster="patinha.png" aria-label="Vídeo de uma criança com um bichinho de tricô">
-              <source src="animate%20(8).mp4" type="video/mp4">
+              <source src="midia/abertura.mp4" type="video/mp4">
             </video>
           </div>
           <div class="intro-copy">
