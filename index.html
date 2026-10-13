@@ -16,7 +16,7 @@
   <meta name="description" content="Descubra qual caminho do Tricorumi combina com a sua fase atual.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --ink:#4b3832;--muted:#765f57;--rose:#b76575;--rose-dark:#914a5b;
@@ -154,6 +154,27 @@
       .message-icon{font-size:2.4rem;margin-bottom:6px}.message-card p{margin-bottom:12px}
     }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+    /* Editorial acolhedor, com contraste e foco no conteúdo. */
+    :root{--ink:#49313a;--muted:#78666b;--rose:#a14165;--rose-dark:#7c3050;--line:#ead7dc;--sand:#fbf3f0}
+    body{font-family:'Open Sans',sans-serif;background:linear-gradient(135deg,#fff8f4,#faedf0 60%,#f6e7e9)}
+    h1,h2{font-family:'Yanone Kaffeesatz',sans-serif;line-height:1.07;letter-spacing:.01em}
+    .card{background:#fffdfa;border-color:#f2e1e4;box-shadow:0 19px 58px rgba(93,39,61,.09)}
+    h3{font-family:'Open Sans',sans-serif;font-weight:700;line-height:1.36}
+    .primary{background:#9b3558;box-shadow:0 8px 25px rgba(155,53,88,.20)}
+    .primary:hover{background:#812a48}
+    .answer{font-family:'Open Sans',sans-serif;line-height:1.48;font-weight:600}
+    .answer:hover{background:#fff0f4;border-color:#bb6e89}
+    .emotion-card{max-width:650px;margin-inline:auto}
+    .emotion-media{position:relative;width:min(100%,340px);height:clamp(175px,32vh,240px);margin:3px auto 16px;background:#f2e3e5;overflow:hidden;border-radius:19px}
+    .emotion-media video,.emotion-poster{width:100%;height:100%;object-fit:cover}
+    .emotion-poster{display:block}
+    .watch-video{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#fff9fa;border:0;padding:12px 20px;border-radius:999px;white-space:nowrap;color:#75304e;font-weight:700;cursor:pointer}
+    .emotion-card h2{font-size:clamp(2.3rem,5vw,3.3rem);margin:10px auto}
+    .emotion-card p{max-width:460px;margin:0 auto 14px}
+    .scene-note{font-size:.68rem;color:#907c83}
+    .skip-link{display:block;background:transparent;border:0;color:#8c6f7c;text-decoration:underline;font-size:.71rem;margin:12px auto 0;cursor:pointer}
+    @media(max-width:640px){h1{font-size:clamp(2.8rem,12vw,4rem)}.emotion-media{height:min(30vh,220px)}.answer{font-size:.79rem;min-height:54px}}
   </style>
 </head>
 <body>
@@ -189,63 +210,52 @@
       }
     };
 
+    // Seis perguntas em uma jornada emocional com duas pausas visuais opcionais.
     const screens=[
-      {type:"question",technique:true,title:"Você já ouviu falar no Tricorumi?",answers:[
-        ["Sim, já ouvi falar e fiquei curiosa.",{}],
-        ["Não, essa é a primeira vez.",{}]
-      ]},
-      {type:"techniqueMessage"},
-      {type:"question",title:"O que você já costuma produzir em tricô?",answers:[
-        ["Ainda estou aprendendo os primeiros pontos.",{mini:4,completo:1}],
-        ["Roupinhas, acessórios ou peças para bebê.",{completo:4,clube:1}],
-        ["Já faço peças variadas e sigo receitas com autonomia.",{pdf:3,clube:2}],
-        ["Tricoto sempre e vivo procurando projetos novos.",{clube:4,completo:2}]
+      {type:"question",title:"O que você gostaria de sentir ao terminar um bichinho em tricô?",answers:[
+        ["A alegria de presentear alguém especial.",{completo:3,mini:2}],
+        ["O orgulho de mostrar uma peça feita por mim.",{completo:4}],
+        ["A tranquilidade de criar algo só meu.",{pdf:2,mini:3}],
+        ["A vontade de fazer uma coleção inteira.",{clube:4,completo:2}]
       ]},
       {type:"question",title:"Como você se sente com as agulhas hoje?",answers:[
-        ["Insegura: preciso aprender ou reforçar a base.",{mini:4,completo:1}],
-        ["Já sei tricotar, mas quero orientação para fazer bichinhos.",{completo:4}],
-        ["Segura: consigo seguir uma receita sozinha.",{pdf:4}],
-        ["Muito à vontade: quero variedade e desafios novos.",{clube:4,completo:1}]
+        ["Sei os pontos básicos, mas ainda preciso de orientação.",{mini:5,completo:1}],
+        ["Já tricoto e quero aprender a fazer bichinhos.",{completo:5}],
+        ["Consigo seguir receitas sozinha.",{pdf:4,clube:1}],
+        ["Tenho experiência e adoro projetos novos.",{clube:4,completo:2}]
       ]},
-      {type:"message",icon:"💛",title:"Você não precisa começar do zero.",text:"Tudo o que você já aprendeu no tricô pode ganhar uma nova forma. O Tricorumi aproveita suas habilidades e transforma pontos conhecidos em bichinhos afetivos, diferentes e encantadores."},
-      {type:"question",title:"O que mais chama sua atenção no Tricorumi?",answers:[
-        ["Aprender a técnica por completo e montar uma coleção.",{completo:5}],
-        ["Começar por poucas peças, com orientação.",{mini:5}],
-        ["Escolher apenas o bichinho que mais gostei.",{pdf:5}],
-        ["Ter uma biblioteca cheia e receber novidades.",{clube:5}]
+      {type:"emotion",title:"Um abraço pode começar com um novelo.",text:"Imagine entregar um bichinho feito ponto por ponto. O sorriso de quem recebe pode tornar essa criação inesquecível.",button:"Quero continuar",poster:"patinha.png",video:"midia/carinho.mp4"},
+      {type:"question",title:"Para quem você imagina criar seu próximo bichinho?",answers:[
+        ["Para uma criança ou alguém que amo.",{mini:3,completo:2}],
+        ["Para encantar minhas clientes.",{completo:5}],
+        ["Para mim: amo criar minhas próprias peças.",{pdf:4,mini:1}],
+        ["Para montar uma coleção de personagens.",{clube:5,completo:1}]
       ]},
-      {type:"question",title:"Qual é sua maior dificuldade hoje?",answers:[
-        ["Falta de confiança para começar algo novo.",{mini:4}],
-        ["Falta de um método completo e organizado.",{completo:4}],
-        ["Não preciso de aula; quero apenas uma boa receita.",{pdf:4}],
-        ["Fico sem ideias e quero projetos sempre à mão.",{clube:4}]
+      {type:"question",title:"O que te ajudaria a transformar essa vontade em uma peça pronta?",answers:[
+        ["Aulas acolhedoras para começar com confiança.",{mini:5}],
+        ["Um método completo com várias peças guiadas.",{completo:5}],
+        ["Uma receita avulsa do personagem que escolhi.",{pdf:5}],
+        ["Uma biblioteca de receitas para criar sempre.",{clube:5}]
       ]},
-      {type:"message",icon:"🧶",title:"Muita artesã também já se sentiu assim.",text:"A diferença não está em tricotar mais e mais do mesmo. Está em descobrir um caminho que combine com sua fase — e permita criar peças que poucas artesãs ainda conhecem."},
-      {type:"question",title:"O que você mais deseja conquistar com o Tricorumi?",answers:[
-        ["Dominar a técnica e criar peças para vender.",{completo:5}],
-        ["Fazer meus primeiros bichinhos sem me perder.",{mini:5}],
-        ["Testar a técnica com um personagem específico.",{pdf:5}],
-        ["Manter meu repertório sempre renovado.",{clube:5}]
+      {type:"emotion",title:"A magia está em poder dizer: fui eu que fiz.",text:"Cada ponto é uma pequena conquista. E ver o bichinho pronto pode ser aquele instante gostoso que faz você querer criar outro.",button:"Quero ver meu caminho",poster:"ratinha.png",video:"midia/abraco.mp4"},
+      {type:"question",title:"Qual sonho você quer tirar das agulhas primeiro?",answers:[
+        ["Terminar meu primeiro bichinho sem medo de errar.",{mini:6}],
+        ["Dominar a técnica para criar e até vender.",{completo:6}],
+        ["Fazer o personagem que roubou meu coração.",{pdf:6}],
+        ["Ter muitas ideias e peças novas para fazer.",{clube:6}]
       ]},
-      {type:"question",title:"Como você prefere aprender e criar?",answers:[
-        ["Com curso estruturado, do básico a vários projetos.",{completo:4}],
-        ["Com um curso menor e direto para ganhar confiança.",{mini:4}],
-        ["No meu ritmo, comprando uma receita quando quiser.",{pdf:4}],
-        ["No meu ritmo, acessando uma biblioteca enquanto assino.",{clube:4}]
-      ]},
-      {type:"message",icon:"✨",title:"Seu tricô pode ir além.",text:"O Tricorumi está ganhando espaço justamente porque une o aconchego do tricô à fofura dos bichinhos. Você não precisa fazer tudo agora — só escolher o próximo passo certo."},
-      {type:"question",title:"Qual destas opções faz mais sentido para você hoje?",price:true,answers:[
-        ["Curso completo","R$ 297 (parcelado em 10x) • módulo básico + 15 bichinhos • acesso por 1 ano",{completo:3}],
-        ["Mini curso","R$ 127 (parcelado em 10x) • módulo básico + 5 bichinhos",{mini:3}],
-        ["Clube de assinaturas","R$ 19,90 no 1º mês; depois R$ 47,90/mês • pague e use quando quiser",{clube:3}],
-        ["PDF avulso","R$ 47,90 cada • escolha somente o bichinho que quiser",{pdf:3}]
+      {type:"question",price:true,title:"Qual formato faz sentido para você agora?",answers:[
+        ["Curso completo","R$ 297 • módulo básico + 15 bichinhos • acesso por 1 ano",{completo:4}],
+        ["Mini curso","R$ 127 • módulo básico + 5 bichinhos",{mini:4}],
+        ["Clube de assinaturas","R$ 19,90 no 1º mês; depois R$ 47,90/mês",{clube:4}],
+        ["PDF avulso","R$ 47,90 por receita",{pdf:4}]
       ]}
     ];
 
     const products={
       completo:{
         title:"Curso Completo de Tricorumi",price:"R$ 297,00",suffix:"parcelado em 10x",shortPay:"(em 10x)",
-        intro:"Você está pronta para levar seu tricô a um novo nível. Seu resultado mostra que não quer apenas copiar uma receita: quer dominar uma técnica encantadora, construir repertório e criar peças que façam as pessoas parar, olhar e desejar.",
+        intro:"Suas respostas mostram vontade de transformar suas habilidades em peças afetivas. Imagine criar uma coleção de personagens e olhar para cada um com orgulho: fui eu que fiz.",
         items:["Módulo básico de tricô","15 bichinhos passo a passo","Acesso por 1 ano","Ideal para aprender, criar e vender"],
         cta:"Quero o curso completo",url:links.completo
       },
@@ -311,13 +321,15 @@
       const current=questionPosition();
       const total=screens.filter(s=>s.type==="question").length;
       progress.style.display=index>=0?"block":"none";
-      fill.style.width=`${Math.max(0,(current-1)/total*100)}%`;
+      fill.style.width=`${Math.max(0,answers.length/total*100)}%`;
       progressText.textContent=current?`Pergunta ${current} de ${total}`:"";
     }
-    function start(){index=0;render()}
+    function start(){index=0;gtag('event','quiz_start',{quiz_name:'tricorumi'});render()}
     function render(){
       updateProgress();
       const s=screens[index];
+      if(s.type==='emotion') return renderEmotion(s);
+      if(s.type==='question') gtag('event','quiz_question_view',{question_number:questionPosition()});
       if(s.type==="message") return renderMessage(s);
       if(s.type==="techniqueMessage") return renderMessage(techniqueMessages[techniqueAnswer]);
       const answersHtml=s.answers.map((a,i)=>{
@@ -341,12 +353,36 @@
       </section>`;
       document.getElementById("continue").onclick=next;
     }
+    function renderEmotion(s){
+      const scene=index===2?1:2;
+      gtag('event','quiz_emotion_view',{scene_number:scene});
+      app.innerHTML=`<section class="card emotion-card">
+        <span class="eyebrow">O carinho mora nos detalhes</span>
+        <div class="emotion-media">
+          <img class="emotion-poster" src="${s.poster}" alt="Bichinho em tricô feito à mão">
+          <video hidden playsinline muted loop preload="none" poster="${s.poster}" aria-label="Cena ilustrativa com bichinho de tricô"><source src="${s.video}" type="video/mp4"></video>
+          <button class="watch-video" type="button">▶ Ver o vídeo</button>
+        </div>
+        <h2>${s.title}</h2><p>${s.text}</p>
+        <p class="scene-note">Cena ilustrativa • cada criação é única</p>
+        <button class="btn primary" id="continue" type="button">${s.button}</button>
+        <button class="skip-link" id="skip" type="button">Pular esta pausa</button>
+      </section>`;
+      const video=app.querySelector('video'),play=app.querySelector('.watch-video'),poster=app.querySelector('.emotion-poster');
+      function fallback(){video.hidden=true;poster.hidden=false;play.hidden=true;}
+      video.addEventListener('error',fallback,{once:true});
+      video.querySelector('source').addEventListener('error',fallback,{once:true});
+      play.onclick=()=>video.play().then(()=>{video.hidden=false;poster.hidden=true;play.hidden=true;gtag('event','quiz_video_play',{scene_number:scene})}).catch(fallback);
+      document.getElementById('continue').onclick=()=>{video.pause();next()};
+      document.getElementById('skip').onclick=()=>{video.pause();next()};
+    }
     function choose(i){
       const choice=screens[index].answers[i];
       if(screens[index].technique) techniqueAnswer=i===0?"yes":"no";
       const score=choice[choice.length-1];
       Object.entries(score).forEach(([k,v])=>scores[k]+=v);
       answers.push({screen:index,choice:i,score});
+      gtag('event','quiz_answer',{question_number:questionPosition(),answer_number:i+1});
       next();
     }
     function next(){
@@ -358,16 +394,17 @@
       return priority.sort((a,b)=>scores[b]-scores[a])[0];
     }
     function showResult(){
-      gtag('event', 'quiz_complete');
+      const key=winner();
+      gtag('event','quiz_complete',{recommended_product:key,question_count:answers.length});
       progress.style.display="block";fill.style.width="100%";progressText.textContent="Resultado pronto ✨";
-      const key=winner(),p=products[key];
+      const p=products[key];
       const alternatives=Object.entries(products).filter(([k])=>k!==key)
         .map(([k,v])=>`<a class="other-option" href="${v.url}" target="_blank" rel="noopener">${v.title}<span>${v.price} ${v.shortPay}</span></a>`).join("");
       app.innerHTML=`<section class="card result-card">
         <div class="result-layout">
           <div>
             ${characterMarkup(productImages[key])}
-            <span class="eyebrow">Seu melhor próximo passo</span>
+            <span class="eyebrow">Seu próximo bichinho começa aqui</span>
             <h2>${p.title}</h2>
             <p>${p.intro}</p>
             <div class="price"><strong>${p.price}</strong><span>${p.suffix}</span></div>
@@ -382,7 +419,7 @@
           <aside class="recommend">
             <span class="stamp">💛</span>
             <strong>Por que combina com você?</strong>
-            <p>A indicação considera seu nível, sua forma de aprender, seu objetivo e o investimento que faz sentido agora — não apenas a última resposta.</p>
+            <p>Esta indicação considera suas respostas sobre habilidade, objetivo e forma de aprender. Você escolhe se faz sentido neste momento.</p>
             <p><strong>Garantia de 7 dias.</strong> Você pode conhecer o conteúdo e decidir com tranquilidade.</p>
             <p class="guarantee">A técnica ainda é pouco conhecida por muitas artesãs e está ganhando mercado pelo apelo afetivo e visual.</p>
           </aside>
@@ -391,28 +428,27 @@
       document.getElementById("restart").onclick=restart;
     }
     function restart(){
-      gtag('event', 'quiz_start');
-      index=0;scores={completo:0,mini:0,clube:0,pdf:0};answers=[];techniqueAnswer="no";
-      render();
+      gtag('event','quiz_restart');
+      index=-1;scores={completo:0,mini:0,clube:0,pdf:0};answers=[];techniqueAnswer="no";
+      renderIntro();
     }
     function renderIntro(){
       progress.style.display="none";
       app.innerHTML=`<section class="card">
         ${characterMarkup(characterImages[0])}
         <span class="eyebrow">Quiz rápido • resultado personalizado</span>
-        <h1>Descubra sua fase atual no tricô</h1>
-        <p class="lead">Em poucos passos, descubra se o melhor caminho para você é o curso completo, o mini curso, o clube de assinaturas ou um PDF avulso.</p>
-        <button class="btn primary" type="button" id="start">Descobrir meu caminho</button>
-        <p class="micro">Leva cerca de 2 minutos • sem cadastro • resultado na hora</p>
+        <h1>Um abraço pode começar nas suas agulhas.</h1>
+        <p class="lead">Imagine a alegria de entregar um bichinho criado por você. Descubra, em seis perguntas, o caminho para transformar seus pontos em personagens cheios de afeto.</p>
+        <button class="btn primary" type="button" id="start">Quero descobrir meu próximo bichinho</button>
+        <p class="micro">6 perguntas • sem cadastro • resultado na hora</p>
       </section>`;
       document.getElementById("start").onclick=start;
     }
-    gtag('event', 'quiz_start');
-    index=0;
-    render();
+    index=-1;
+    renderIntro();
     app.addEventListener('click', function(event){
       const link=event.target.closest('.result-card a[href]');
-      if(link) gtag('event', 'checkout_click', {transport_type: 'beacon'});
+      if(link) gtag('event','checkout_click',{transport_type:'beacon',recommended_product:winner(),destination:link.href});
     });
   </script>
 </body>
